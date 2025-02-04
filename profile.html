@@ -47,20 +47,15 @@
     <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
 
     <script>
-        // 正しいパスワード
         const correctPassword = "1111";
 
-        // 確認ボタンがクリックされたときの動作
         document.getElementById('submitBtn').addEventListener('click', function() {
             const password = document.getElementById('password').value;
 
-            // パスワードが正しいかどうか確認
             if (password === correctPassword) {
-                // 正しい場合、友達追加ページに遷移
-                window.location.href = 'friends.html';
+                window.location.href = 'friends.html'; // 次の画面（友達一覧）へ
             } else {
-                // パスワードが間違っていた場合、エラーメッセージを表示
-                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'block'; // エラーメッセージ表示
             }
         });
     </script>
