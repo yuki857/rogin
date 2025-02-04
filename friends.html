@@ -4,129 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>友達一覧</title>
-    <style>
-        body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
-        .btn { padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
-        .btn:hover { background-color: #0056b3; }
-        input[type="text"] { width: 200px; padding: 10px; margin: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; }
-        ul { list-style: none; padding: 0; }
-        li { font-size: 18px; margin: 10px 0; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button class="btn" id="addFriendBtn">友達追加</button>
-    
-    <div id="addFriendSection" style="display: none;">
-        <p>追加したい人のコードを入力してください</p>
-        <input type="text" id="friendCodeInput" placeholder="友達追加コード">
-        <button class="btn" id="confirmAddFriendBtn">追加</button>
-    </div>
+    <h1>友達一覧</h1>
+    <input type="text" id="addFriendInput" placeholder="友達のコードを入力">
+    <button onclick="addFriend()">追加</button>
+    <ul id="friendList"></ul>
 
-    <h2>友達一覧</h2>
-<ul id="friendList">
-    <!-- 友達の名前がここに追加される -->
-</ul>
-
-<script>
-    window.onload = function() {
-        let friends = JSON.parse(localStorage.getItem("friends")) || [];
-        const friendList = document.getElementById('friendList');
-
-        friends.forEach(friend => {
-            const listItem = document.createElement('li');
-            listItem.textContent = friend.name;
-            listItem.style.cursor = "pointer"; // クリックできるように
-            listItem.onclick = function() {
-                window.location.href = `chat.html?code=${friend.code}`;
-            };
-            friendList.appendChild(listItem);
-        });
-    };
-</script>
-
-    <script>
-        // 最初にテスト用のユーザーを追加（データがない場合のみ）
-        if (!localStorage.getItem("allProfiles")) {
-            let testProfiles = [{ name: "テスト太郎", code: "test123" }];
-            localStorage.setItem("allProfiles", JSON.stringify(testProfiles));
-            console.log("テストユーザーを登録しました:", testProfiles);
-        } else {
-            console.log("既存のユーザーデータ:", JSON.parse(localStorage.getItem("allProfiles")));
-        }
-
-        document.getElementById('addFriendBtn').addEventListener('click', function() {
-            document.getElementById('addFriendSection').style.display = 'block';
-        });
-
-        document.getElementById('confirmAddFriendBtn').addEventListener('click', function() {
-            const inputCode = document.getElementById('friendCodeInput').value.trim();
-            const savedProfile = JSON.parse(localStorage.getItem("profile")); // 自分のプロフィール情報を取得
-            let friends = JSON.parse(localStorage.getItem("friends")) || []; // 友達リストを取得（なければ空配列）
-
-            if (savedProfile && savedProfile.code === inputCode) {
-                alert("自分自身を友達に追加することはできません！");
-                return;
-            }
-
-            if (friends.some(friend => friend.code === inputCode)) {
-                alert("この友達はすでに追加されています。");
-                return;
-            }
-
-            // すでに保存されている全ユーザーデータから探す
-            let allProfiles = JSON.parse(localStorage.getItem("allProfiles")) || [];
-
-            console.log("検索するコード:", inputCode);
-            console.log("全プロフィールデータ:", allProfiles);
-
-            let foundFriend = allProfiles.find(profile => profile.code === inputCode);
-
-            if (foundFriend) {
-                friends.push(foundFriend); // 友達リストに追加
-                localStorage.setItem("friends", JSON.stringify(friends)); // 更新
-                
-                const listItem = document.createElement('li');
-                listItem.textContent = foundFriend.name;
-                document.getElementById('friendList').appendChild(listItem);
-                alert(`${foundFriend.name} を友達に追加しました！`);
-            } else {
-                alert('このコードのユーザーは見つかりませんでした。');
-            }
-        });
-
-        // ページ読み込み時に友達一覧を表示
-        window.onload = function() {
-            let friends = JSON.parse(localStorage.getItem("friends")) || [];
-            const friendList = document.getElementById('friendList');
-
-            friends.forEach(friend => {
-                const listItem = document.createElement('li');
-                listItem.textContent = friend.name;
-                friendList.appendChild(listItem);
-            });
-        };
-        <script>
-    // 初期データを登録（テスト太郎を友達リストに追加）
-    if (!localStorage.getItem("friends")) {
-        let testFriends = [{ name: "テスト太郎", code: "test123" }];
-        localStorage.setItem("friends", JSON.stringify(testFriends));
-    }
-
-    window.onload = function() {
-        let friends = JSON.parse(localStorage.getItem("friends")) || [];
-        const friendList = document.getElementById('friendList');
-
-        friends.forEach(friend => {
-            const listItem = document.createElement('li');
-            listItem.textContent = friend.name;
-            listItem.style.cursor = "pointer";
-            listItem.onclick = function() {
-                window.location.href = `chat.html?code=${friend.code}`;
-            };
-            friendList.appendChild(listItem);
-        });
-    };
-</script>
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
