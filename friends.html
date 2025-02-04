@@ -29,9 +29,13 @@
     </ul>
 
     <script>
-        // 最初にテスト用のユーザーを追加
+        // 最初にテスト用のユーザーを追加（データがない場合のみ）
         if (!localStorage.getItem("allProfiles")) {
-            localStorage.setItem("allProfiles", JSON.stringify([{ name: "テスト太郎", code: "test123" }]));
+            let testProfiles = [{ name: "テスト太郎", code: "test123" }];
+            localStorage.setItem("allProfiles", JSON.stringify(testProfiles));
+            console.log("テストユーザーを登録しました:", testProfiles);
+        } else {
+            console.log("既存のユーザーデータ:", JSON.parse(localStorage.getItem("allProfiles")));
         }
 
         document.getElementById('addFriendBtn').addEventListener('click', function() {
@@ -56,6 +60,9 @@
             // すでに保存されている全ユーザーデータから探す
             let allProfiles = JSON.parse(localStorage.getItem("allProfiles")) || [];
 
+            console.log("検索するコード:", inputCode);
+            console.log("全プロフィールデータ:", allProfiles);
+
             let foundFriend = allProfiles.find(profile => profile.code === inputCode);
 
             if (foundFriend) {
@@ -65,6 +72,7 @@
                 const listItem = document.createElement('li');
                 listItem.textContent = foundFriend.name;
                 document.getElementById('friendList').appendChild(listItem);
+                alert(`${foundFriend.name} を友達に追加しました！`);
             } else {
                 alert('このコードのユーザーは見つかりませんでした。');
             }
