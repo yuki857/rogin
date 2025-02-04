@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パスワード確認</title>
+    <title>プロフィール作成</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
         h1 { margin-bottom: 20px; }
-        input[type="password"] {
+        .btn { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+        .btn:hover { background-color: #218838; }
+        .error { color: red; font-size: 14px; margin-top: 10px; }
+        input[type="text"], input[type="color"] {
             width: 250px;
             padding: 10px;
             margin: 10px;
@@ -15,33 +18,29 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .error {
-            color: red;
-            font-size: 14px;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-    <h1>プロフィール作成</h1>
+    <h1>パスワード入力</h1>
     <p>パスワードを入力してください</p>
 
-    <div>
+    <div id="passwordForm">
         <label for="password">パスワード:</label>
         <input type="password" id="password">
-        <button id="submitBtn">確認</button>
+        <button class="btn" id="submitPasswordBtn">確認</button>
+    </div>
+
+    <div id="profileForm" style="display: none;">
+        <h1>プロフィール作成</h1>
+        <p>名前とアイコンを設定してください</p>
+
+        <label for="username">名前:</label>
+        <input type="text" id="username" placeholder="名前を入力">
+
+        <label for="iconColor">アイコンカラー:</label>
+        <input type="color" id="iconColor">
+
+        <button class="btn" id="createProfileBtn">プロフィール作成</button>
     </div>
 
     <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
@@ -49,13 +48,31 @@
     <script>
         const correctPassword = "1111";
 
-        document.getElementById('submitBtn').addEventListener('click', function() {
+        // パスワード入力の確認
+        document.getElementById('submitPasswordBtn').addEventListener('click', function() {
             const password = document.getElementById('password').value;
 
             if (password === correctPassword) {
-                window.location.href = 'friends.html'; // 次の画面（友達一覧）へ
+                // パスワードが正しい場合、プロフィール作成画面を表示
+                document.getElementById('passwordForm').style.display = 'none';
+                document.getElementById('profileForm').style.display = 'block';
             } else {
                 document.getElementById('errorMessage').style.display = 'block'; // エラーメッセージ表示
+            }
+        });
+
+        // プロフィール作成
+        document.getElementById('createProfileBtn').addEventListener('click', function() {
+            const username = document.getElementById('username').value.trim();
+            const iconColor = document.getElementById('iconColor').value;
+
+            if (username && iconColor) {
+                // プロフィールが作成された場合
+                alert('プロフィールが作成されました！');
+                // ここで次のページに遷移する場合
+                window.location.href = 'friends.html'; // 友達一覧ページに遷移
+            } else {
+                alert('名前とアイコンカラーを正しく入力してください');
             }
         });
     </script>
