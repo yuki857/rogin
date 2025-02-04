@@ -5,86 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>友達一覧</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
         h1 { margin-bottom: 20px; }
-        #friendsList { list-style: none; padding: 0; }
-        .friend {
-            padding: 10px;
-            background-color: #f8f9fa;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+        .btn { padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
         .btn:hover { background-color: #0056b3; }
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        ul { list-style: none; padding: 0; }
+        li { font-size: 18px; margin: 10px 0; }
     </style>
 </head>
 <body>
-
     <h1>友達一覧</h1>
-    <ul id="friendsList">
-        <!-- ここに友達が追加されます -->
-    </ul>
 
     <button class="btn" id="addFriendBtn">友達追加</button>
-
-    <div id="friendCodeForm" style="display: none;">
-        <h3>友達コードを入力してください</h3>
-        <input type="text" id="friendCode" placeholder="コード">
-        <button class="btn" id="submitCodeBtn">追加</button>
+    
+    <div id="addFriendSection" style="display: none;">
+        <p>追加したい人のコードを入力してください</p>
+        <input type="text" id="friendCodeInput" placeholder="友達追加コード">
+        <button class="btn" id="confirmAddFriendBtn">追加</button>
     </div>
 
+    <h2>登録済みの友達</h2>
+    <ul id="friendList">
+        <!-- 友達の名前がここに追加される -->
+    </ul>
+
     <script>
-        // 友達リスト（仮にローカルストレージで管理）
-        let friends = JSON.parse(localStorage.getItem('friends')) || [];
-
-        // 友達を表示する関数
-        function displayFriends() {
-            const friendsList = document.getElementById('friendsList');
-            friendsList.innerHTML = ''; // 一度リストをリセット
-
-            friends.forEach(friend => {
-                const li = document.createElement('li');
-                li.classList.add('friend');
-                li.textContent = friend;
-                friendsList.appendChild(li);
-            });
-        }
-
-        // 友達を追加する関数
-        function addFriend(code) {
-            friends.push(code);
-            localStorage.setItem('friends', JSON.stringify(friends));
-            displayFriends();
-        }
-
-        // 友達追加ボタンがクリックされたとき
         document.getElementById('addFriendBtn').addEventListener('click', function() {
-            document.getElementById('friendCodeForm').style.display = 'block';
+            document.getElementById('addFriendSection').style.display = 'block';
         });
 
-        // コード入力後に友達を追加する
-        document.getElementById('submitCodeBtn').addEventListener('click', function() {
-            const code = document.getElementById('friendCode').value.trim();
+        // 仮のデータ（本来はサーバーから取得する）
+        const profiles = {
+            "abc123": "山田太郎",
+            "xyz789": "鈴木花子",
+            "test001": "田中一郎"
+        };
 
-            if (code) {
-                addFriend(code);
-                document.getElementById('friendCodeForm').style.display = 'none';
-                document.getElementById('friendCode').value = ''; // 入力フィールドをリセット
+        document.getElementById('confirmAddFriendBtn').addEventListener('click', function() {
+            const inputCode = document.getElementById('friendCodeInput').value.trim();
+            if (profiles[inputCode]) {
+                const friendName = profiles[inputCode];
+                const friendList = document.getElementById('friendList');
+
+                // すでに追加されているか確認
+                if (![...friendList.children].some(li => li.textContent === friendName)) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = friendName;
+                    friendList.appendChild(listItem);
+                } else {
+                    alert('この友達はすでに追加されています。');
+                }
+            } else {
+                alert('このコードのユーザーは見つかりませんでした。');
             }
         });
-
-        // ページ読み込み時に友達を表示
-        displayFriends();
     </script>
 </body>
 </html>
