@@ -4,35 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プロフィール作成</title>
-    <style>
-        body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
-        input, button { margin: 10px; padding: 10px; font-size: 16px; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>プロフィール作成</h1>
-    <p>名前を入力してください:</p>
-    <input type="text" id="nameInput" placeholder="名前">
-    <p>友達追加コードを作成してください（例: abc123）:</p>
-    <input type="text" id="codeInput" placeholder="友達追加コード">
-    <button onclick="saveProfile()">プロフィールを保存</button>
+    <input type="text" id="nameInput" placeholder="名前を入力">
+    <input type="text" id="friendCodeInput" placeholder="友達追加コード（自動生成）" readonly>
+    <button onclick="saveProfile()">保存</button>
 
-    <script>
-        function saveProfile() {
-            const name = document.getElementById('nameInput').value.trim();
-            const code = document.getElementById('codeInput').value.trim();
-            
-            if (!name || !code) {
-                alert("名前と友達追加コードを入力してください！");
-                return;
-            }
-
-            // ローカルストレージにプロフィールを保存
-            localStorage.setItem("profile", JSON.stringify({ name, code }));
-
-            alert("プロフィールが保存されました！");
-            window.location.href = "friends.html"; // 友達一覧ページに移動
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
