@@ -55,7 +55,6 @@
             const password = document.getElementById('password').value;
 
             // 登録後にプロフィール作成画面に遷移
-            // この段階では送信したデータをクエリパラメータとして次のページに渡すことも可能です
             window.location.href = 'profile.html?id=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password);
         });
     </script>
