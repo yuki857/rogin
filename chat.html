@@ -66,6 +66,53 @@
                 messageInput.value = "";
             }
         });
+        <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const friendCode = urlParams.get("code");
+
+    if (!friendCode) {
+        alert("友達のコードが見つかりません！");
+        window.location.href = "friends.html";
+    }
+
+    let friends = JSON.parse(localStorage.getItem("friends")) || [];
+    let friend = friends.find(f => f.code === friendCode);
+
+    if (!friend) {
+        alert("この友達は存在しません！");
+        window.location.href = "friends.html";
+    }
+
+    document.getElementById("chatTitle").textContent = `チャット - ${friend.name}`;
+
+    let chatHistory = JSON.parse(localStorage.getItem(`chat_${friendCode}`)) || [];
+
+    const chatBox = document.getElementById("chatBox");
+
+    function displayMessages() {
+        chatBox.innerHTML = "";
+        chatHistory.forEach(msg => {
+            let p = document.createElement("p");
+            p.textContent = msg;
+            chatBox.appendChild(p);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    displayMessages();
+
+    document.getElementById("sendBtn").addEventListener("click", function() {
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value.trim();
+
+        if (message) {
+            chatHistory.push(message);
+            localStorage.setItem(`chat_${friendCode}`, JSON.stringify(chatHistory));
+            displayMessages();
+            messageInput.value = "";
+        }
+    });
+</script>
     </script>
 </body>
 </html>
