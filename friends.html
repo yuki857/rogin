@@ -6,24 +6,15 @@
     <title>友達一覧</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
-        h1 { margin-bottom: 20px; }
         .btn { padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
         .btn:hover { background-color: #0056b3; }
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        input[type="text"] { width: 200px; padding: 10px; margin: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px; }
         ul { list-style: none; padding: 0; }
         li { font-size: 18px; margin: 10px 0; }
     </style>
 </head>
 <body>
     <h1>友達一覧</h1>
-
     <button class="btn" id="addFriendBtn">友達追加</button>
     
     <div id="addFriendSection" style="display: none;">
@@ -42,31 +33,49 @@
             document.getElementById('addFriendSection').style.display = 'block';
         });
 
-        // 仮のデータ（本来はサーバーから取得する）
-        const profiles = {
-            "abc123": "山田太郎",
-            "xyz789": "鈴木花子",
-            "test001": "田中一郎"
-        };
-
         document.getElementById('confirmAddFriendBtn').addEventListener('click', function() {
             const inputCode = document.getElementById('friendCodeInput').value.trim();
-            if (profiles[inputCode]) {
-                const friendName = profiles[inputCode];
-                const friendList = document.getElementById('friendList');
+            const savedProfile = JSON.parse(localStorage.getItem("profile")); // 自分のプロフィール情報を取得
+            let friends = JSON.parse(localStorage.getItem("friends")) || []; // 友達リストを取得（なければ空配列）
 
-                // すでに追加されているか確認
-                if (![...friendList.children].some(li => li.textContent === friendName)) {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = friendName;
-                    friendList.appendChild(listItem);
-                } else {
-                    alert('この友達はすでに追加されています。');
-                }
+            if (savedProfile && savedProfile.code === inputCode) {
+                alert("自分自身を友達に追加することはできません！");
+                return;
+            }
+
+            if (friends.some(friend => friend.code === inputCode)) {
+                alert("この友達はすでに追加されています。");
+                return;
+            }
+
+            // すでに保存されている全ユーザーデータから探す
+            let allProfiles = JSON.parse(localStorage.getItem("allProfiles")) || [];
+
+            let foundFriend = allProfiles.find(profile => profile.code === inputCode);
+
+            if (foundFriend) {
+                friends.push(foundFriend); // 友達リストに追加
+                localStorage.setItem("friends", JSON.stringify(friends)); // 更新
+                
+                const listItem = document.createElement('li');
+                listItem.textContent = foundFriend.name;
+                document.getElementById('friendList').appendChild(listItem);
             } else {
                 alert('このコードのユーザーは見つかりませんでした。');
             }
         });
+
+        // ページ読み込み時に友達一覧を表示
+        window.onload = function() {
+            let friends = JSON.parse(localStorage.getItem("friends")) || [];
+            const friendList = document.getElementById('friendList');
+
+            friends.forEach(friend => {
+                const listItem = document.createElement('li');
+                listItem.textContent = friend.name;
+                friendList.appendChild(listItem);
+            });
+        };
     </script>
 </body>
 </html>
