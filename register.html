@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規登録</title>
+    <title>パスワード確認</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
         h1 { margin-bottom: 20px; }
-        input[type="text"], input[type="password"] {
+        input[type="password"] {
             width: 250px;
             padding: 10px;
             margin: 10px;
@@ -35,18 +35,14 @@
     </style>
 </head>
 <body>
-    <h1>新規登録</h1>
-    <form id="registerForm">
-        <div>
-            <label for="id">ユーザーID:</label>
-            <input type="text" id="id" name="id" required>
-        </div>
+    <h1>パスワード確認</h1>
+    <form id="passwordForm">
         <div>
             <label for="password">パスワード:</label>
             <input type="password" id="password" name="password" required>
         </div>
         <div>
-            <button type="button" id="submitBtn">登録</button>
+            <button type="button" id="submitBtn">確認</button>
         </div>
         <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
     </form>
@@ -55,16 +51,15 @@
         // 正しいパスワード
         const correctPassword = "1111";
 
-        // 登録ボタンがクリックされたときの動作
+        // 確認ボタンがクリックされたときの動作
         document.getElementById('submitBtn').addEventListener('click', function() {
-            // フォームのデータを取得
-            const id = document.getElementById('id').value;
+            // 入力されたパスワードを取得
             const password = document.getElementById('password').value;
 
             // パスワードが正しいかどうか確認
             if (password === correctPassword) {
                 // 正しい場合、プロフィール作成画面に遷移
-                window.location.href = 'profile.html?id=' + encodeURIComponent(id);
+                window.location.href = 'profile.html';
             } else {
                 // パスワードが間違っていた場合、エラーメッセージを表示
                 document.getElementById('errorMessage').style.display = 'block';
