@@ -105,6 +105,28 @@
                 friendList.appendChild(listItem);
             });
         };
+        <script>
+    // 初期データを登録（テスト太郎を友達リストに追加）
+    if (!localStorage.getItem("friends")) {
+        let testFriends = [{ name: "テスト太郎", code: "test123" }];
+        localStorage.setItem("friends", JSON.stringify(testFriends));
+    }
+
+    window.onload = function() {
+        let friends = JSON.parse(localStorage.getItem("friends")) || [];
+        const friendList = document.getElementById('friendList');
+
+        friends.forEach(friend => {
+            const listItem = document.createElement('li');
+            listItem.textContent = friend.name;
+            listItem.style.cursor = "pointer";
+            listItem.onclick = function() {
+                window.location.href = `chat.html?code=${friend.code}`;
+            };
+            friendList.appendChild(listItem);
+        });
+    };
+</script>
     </script>
 </body>
 </html>
