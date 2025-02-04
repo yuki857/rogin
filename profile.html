@@ -6,45 +6,33 @@
     <title>プロフィール作成</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
-        h1 { margin-bottom: 20px; }
-        .btn { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
-        .btn:hover { background-color: #218838; }
-        input[type="text"] {
-            width: 250px;
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+        input, button { margin: 10px; padding: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
     <h1>プロフィール作成</h1>
-    <p>名前と友達追加コードを設定してください</p>
-
-    <label for="username">名前:</label>
-    <input type="text" id="username" placeholder="名前を入力">
-
-    <label for="friendCode">友達追加コード:</label>
-    <input type="text" id="friendCode" placeholder="友達追加用コード">
-
-    <button class="btn" id="createProfileBtn">プロフィール作成</button>
+    <p>名前を入力してください:</p>
+    <input type="text" id="nameInput" placeholder="名前">
+    <p>友達追加コードを作成してください（例: abc123）:</p>
+    <input type="text" id="codeInput" placeholder="友達追加コード">
+    <button onclick="saveProfile()">プロフィールを保存</button>
 
     <script>
-        // プロフィール作成
-        document.getElementById('createProfileBtn').addEventListener('click', function() {
-            const username = document.getElementById('username').value.trim();
-            const friendCode = document.getElementById('friendCode').value.trim();
-
-            if (username && friendCode) {
-                // 名前とコードが正しく入力されていれば次に進む
-                alert('プロフィールが作成されました！');
-                window.location.href = 'friends.html'; // 友達一覧ページに遷移
-            } else {
-                alert('名前と友達追加コードを正しく入力してください');
+        function saveProfile() {
+            const name = document.getElementById('nameInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            
+            if (!name || !code) {
+                alert("名前と友達追加コードを入力してください！");
+                return;
             }
-        });
+
+            // ローカルストレージにプロフィールを保存
+            localStorage.setItem("profile", JSON.stringify({ name, code }));
+
+            alert("プロフィールが保存されました！");
+            window.location.href = "friends.html"; // 友達一覧ページに移動
+        }
     </script>
 </body>
 </html>
