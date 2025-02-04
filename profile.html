@@ -3,22 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プロフィール作成</title>
+    <title>パスワード確認</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
+        h1 { margin-bottom: 20px; }
+        input[type="password"] {
+            width: 250px;
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>プロフィール作成</h1>
-    <p>ユーザーID: <span id="userId"></span></p>
-    <p>パスワード: <span id="userPassword"></span></p>
+    <p>パスワードを入力してください</p>
+
+    <div>
+        <label for="password">パスワード:</label>
+        <input type="password" id="password">
+        <button id="submitBtn">確認</button>
+    </div>
+
+    <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
 
     <script>
-        // URLからクエリパラメータを取得する
-        const urlParams = new URLSearchParams(window.location.search);
-        const userId = urlParams.get('id');
-        const userPassword = urlParams.get('password');
+        // 正しいパスワード
+        const correctPassword = "1111";
 
-        // 取得した値をHTMLに表示
-        document.getElementById('userId').textContent = userId;
-        document.getElementById('userPassword').textContent = userPassword;
+        // 確認ボタンがクリックされたときの動作
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const password = document.getElementById('password').value;
+
+            // パスワードが正しいかどうか確認
+            if (password === correctPassword) {
+                // 正しい場合、友達追加ページに遷移
+                window.location.href = 'friends.html';
+            } else {
+                // パスワードが間違っていた場合、エラーメッセージを表示
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
