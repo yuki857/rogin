@@ -9,8 +9,7 @@
         h1 { margin-bottom: 20px; }
         .btn { padding: 10px 20px; font-size: 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 20px; }
         .btn:hover { background-color: #218838; }
-        .error { color: red; font-size: 14px; margin-top: 10px; }
-        input[type="text"], input[type="color"] {
+        input[type="text"] {
             width: 250px;
             padding: 10px;
             margin: 10px;
@@ -21,58 +20,29 @@
     </style>
 </head>
 <body>
-    <h1>パスワード入力</h1>
-    <p>パスワードを入力してください</p>
+    <h1>プロフィール作成</h1>
+    <p>名前と友達追加コードを設定してください</p>
 
-    <div id="passwordForm">
-        <label for="password">パスワード:</label>
-        <input type="password" id="password">
-        <button class="btn" id="submitPasswordBtn">確認</button>
-    </div>
+    <label for="username">名前:</label>
+    <input type="text" id="username" placeholder="名前を入力">
 
-    <div id="profileForm" style="display: none;">
-        <h1>プロフィール作成</h1>
-        <p>名前とアイコンを設定してください</p>
+    <label for="friendCode">友達追加コード:</label>
+    <input type="text" id="friendCode" placeholder="友達追加用コード">
 
-        <label for="username">名前:</label>
-        <input type="text" id="username" placeholder="名前を入力">
-
-        <label for="iconColor">アイコンカラー:</label>
-        <input type="color" id="iconColor">
-
-        <button class="btn" id="createProfileBtn">プロフィール作成</button>
-    </div>
-
-    <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
+    <button class="btn" id="createProfileBtn">プロフィール作成</button>
 
     <script>
-        const correctPassword = "1111";
-
-        // パスワード入力の確認
-        document.getElementById('submitPasswordBtn').addEventListener('click', function() {
-            const password = document.getElementById('password').value;
-
-            if (password === correctPassword) {
-                // パスワードが正しい場合、プロフィール作成画面を表示
-                document.getElementById('passwordForm').style.display = 'none';
-                document.getElementById('profileForm').style.display = 'block';
-            } else {
-                document.getElementById('errorMessage').style.display = 'block'; // エラーメッセージ表示
-            }
-        });
-
         // プロフィール作成
         document.getElementById('createProfileBtn').addEventListener('click', function() {
             const username = document.getElementById('username').value.trim();
-            const iconColor = document.getElementById('iconColor').value;
+            const friendCode = document.getElementById('friendCode').value.trim();
 
-            if (username && iconColor) {
-                // プロフィールが作成された場合
+            if (username && friendCode) {
+                // 名前とコードが正しく入力されていれば次に進む
                 alert('プロフィールが作成されました！');
-                // ここで次のページに遷移する場合
                 window.location.href = 'friends.html'; // 友達一覧ページに遷移
             } else {
-                alert('名前とアイコンカラーを正しく入力してください');
+                alert('名前と友達追加コードを正しく入力してください');
             }
         });
     </script>
