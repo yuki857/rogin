@@ -14,7 +14,6 @@
     </style>
 </head>
 <body>
-    <h1>友達一覧</h1>
     <button class="btn" id="addFriendBtn">友達追加</button>
     
     <div id="addFriendSection" style="display: none;">
@@ -23,10 +22,27 @@
         <button class="btn" id="confirmAddFriendBtn">追加</button>
     </div>
 
-    <h2>登録済みの友達</h2>
-    <ul id="friendList">
-        <!-- 友達の名前がここに追加される -->
-    </ul>
+    <h2>友達一覧</h2>
+<ul id="friendList">
+    <!-- 友達の名前がここに追加される -->
+</ul>
+
+<script>
+    window.onload = function() {
+        let friends = JSON.parse(localStorage.getItem("friends")) || [];
+        const friendList = document.getElementById('friendList');
+
+        friends.forEach(friend => {
+            const listItem = document.createElement('li');
+            listItem.textContent = friend.name;
+            listItem.style.cursor = "pointer"; // クリックできるように
+            listItem.onclick = function() {
+                window.location.href = `chat.html?code=${friend.code}`;
+            };
+            friendList.appendChild(listItem);
+        });
+    };
+</script>
 
     <script>
         // 最初にテスト用のユーザーを追加（データがない場合のみ）
