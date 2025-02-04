@@ -27,6 +27,11 @@
         button:hover {
             background-color: #218838;
         }
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -41,21 +46,29 @@
             <input type="password" id="password" name="password" required>
         </div>
         <div>
-            <button type="submit">登録</button>
+            <button type="button" id="submitBtn">登録</button>
         </div>
+        <p id="errorMessage" class="error" style="display: none;">パスワードが間違っています。正しいパスワードを入力してください。</p>
     </form>
 
     <script>
-        // フォーム送信時の動作をJavaScriptで制御
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            event.preventDefault();  // フォームの通常の送信を防ぐ
+        // 正しいパスワード
+        const correctPassword = "1111";
 
-            // フォームデータを取得（必要に応じてここで処理できます）
+        // 登録ボタンがクリックされたときの動作
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // フォームのデータを取得
             const id = document.getElementById('id').value;
             const password = document.getElementById('password').value;
 
-            // 登録後にプロフィール作成画面に遷移
-            window.location.href = 'profile.html?id=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password);
+            // パスワードが正しいかどうか確認
+            if (password === correctPassword) {
+                // 正しい場合、プロフィール作成画面に遷移
+                window.location.href = 'profile.html?id=' + encodeURIComponent(id);
+            } else {
+                // パスワードが間違っていた場合、エラーメッセージを表示
+                document.getElementById('errorMessage').style.display = 'block';
+            }
         });
     </script>
 </body>
