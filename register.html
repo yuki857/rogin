@@ -31,7 +31,7 @@
 </head>
 <body>
     <h1>新規登録</h1>
-    <form action="profile.html" method="get">
+    <form id="registerForm">
         <div>
             <label for="id">ユーザーID:</label>
             <input type="text" id="id" name="id" required>
@@ -44,5 +44,20 @@
             <button type="submit">登録</button>
         </div>
     </form>
+
+    <script>
+        // フォーム送信時の動作をJavaScriptで制御
+        document.getElementById('registerForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // フォームの通常の送信を防ぐ
+
+            // フォームデータを取得（必要に応じてここで処理できます）
+            const id = document.getElementById('id').value;
+            const password = document.getElementById('password').value;
+
+            // 登録後にプロフィール作成画面に遷移
+            // この段階では送信したデータをクエリパラメータとして次のページに渡すことも可能です
+            window.location.href = 'profile.html?id=' + encodeURIComponent(id) + '&password=' + encodeURIComponent(password);
+        });
+    </script>
 </body>
 </html>
