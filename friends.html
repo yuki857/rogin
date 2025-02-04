@@ -29,6 +29,11 @@
     </ul>
 
     <script>
+        // 最初にテスト用のユーザーを追加
+        if (!localStorage.getItem("allProfiles")) {
+            localStorage.setItem("allProfiles", JSON.stringify([{ name: "テスト太郎", code: "test123" }]));
+        }
+
         document.getElementById('addFriendBtn').addEventListener('click', function() {
             document.getElementById('addFriendSection').style.display = 'block';
         });
